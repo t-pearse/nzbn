@@ -52,7 +52,7 @@ Full company details based on a unique 'Company Number' will be returned.
 All output is returned as parsed JSON. Within a rails view it can be quickly navigated with [Nokogiri](https://github.com/sparklemotion/nokogiri) or similar.
 
 
-## TODO
+## Pull requests welcome!
 
 Pull requests welcome to build out further functionality including:
 - Entity filings
