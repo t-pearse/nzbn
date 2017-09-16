@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{Simple and fast authenticating ruby API wrapper for the NZBN API}
   spec.description   = %q{Search, update details and manage New Zealand companies through the NZBN register.}
-  spec.homepage      = "https://github.com/t-pearse/nzcoapi"
+  spec.homepage      = "https://github.com/t-pearse/nzbn"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'

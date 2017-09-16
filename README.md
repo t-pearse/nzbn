@@ -27,9 +27,9 @@ Or install it yourself as:
 
 You will also need to set the following ENV variables, in order to access the API. These can be gound on the business.govt.nz website under your login.
 
-$ NZBN_ID=
+    $ NZBN_ID=
 
-$ NZBN_SECRET=
+    $ NZBN_SECRET=
 
 
 ## Usage
