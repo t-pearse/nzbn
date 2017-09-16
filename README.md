@@ -1,8 +1,13 @@
-# Nzbn
+# NZBN Gem
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/nzbn`. To experiment with that code, run `bin/console` for an interactive prompt.
+Simple and fast authenticating API wrapper for the New Zealand Companies Office. Search by company and retrieve company details. Further functionality can easily be exposed.
 
-TODO: Delete this and the text above, and describe your gem
+
+## About the Companies Office
+
+The New Zealand Companies Office has an API which can be accessed through registration at: [https://api.business.govt.nz/api/](https://api.business.govt.nz/api/)
+
+Registration is required in order to obtain unique access keys to use the API.
 
 ## Installation
 
@@ -20,19 +25,53 @@ Or install it yourself as:
 
     $ gem install nzbn
 
+You will also need to set the following ENV variables, in order to access the API. These can be gound on the business.govt.nz website under your login.
+
+$ NZBN_ID=
+
+$ NZBN_SECRET=
+
+
 ## Usage
 
-TODO: Write usage instructions here
+Two functions have been exposed, as per below.
 
-## Development
+### Company details by NZBN
 
-After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+	$ NZBN.entity(nzbn)
+  * where nzbn is the entity nzbn
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+Full company details based on a unique 'Company Number' will be returned.
+
+### Search for a Company
+
+	$ NZBZN.entites(search_term, entity_status, page_length)
+  * entity_status = "registered" to filter the search for registered entities only (defaults to registered)*
+  * page_length = 50 to return the top 50 results only (max of 200, defaults to 50)*
+
+All output is returned as parsed JSON. Within a rails view it can be quickly navigated with [Nokogiri](https://github.com/sparklemotion/nokogiri) or similar.
+
+
+## TODO
+
+Pull requests welcome to build out further functionality including:
+- Entity filings
+- Subscriptions
+- Users
+- Authorities
+- Organisations
+- Documents
+
+
+## Queries
+
+> NB: This Gem is not developed or maintained by the New Zealand Companies Office in anyway.
+
+Please don't hesitate to get in touch if you have any queries and I'll try and point you in the right direction!
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/nzbn.
+Bug reports and pull requests are welcome on GitHub at https://github.com/tpearse/nzbn.
 
 ## License
 
