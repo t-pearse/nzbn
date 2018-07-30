@@ -29,6 +29,16 @@ module NZBN
       return JSON.parse(r.body_str)
     end
 
+    def self.filings(nzbn)
+      r = Curl::Easy.new("https://api.business.govt.nz/services/v3/nzbn/entities/#{nzbn}/filings") do |curl|
+        curl.headers['Authorization'] = 'Bearer ' + access_token
+        curl.http_auth_types = :basic
+        curl.verbose = true
+      end
+      r.perform
+      return JSON.parse(r.body_str)
+    end
+
 
 
   private

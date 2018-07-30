@@ -45,9 +45,16 @@ Full company details based on a unique 'Company Number' will be returned.
 
 ### Search for a Company
 
-	$ NZBZN.entites(search_term, entity_status, page_length)
+	$ NZBN.entities(search_term, entity_status, page_length)
   * entity_status = "registered" to filter the search for registered entities only (defaults to registered)*
   * page_length = 50 to return the top 50 results only (max of 200, defaults to 50)*
+
+### Entity Filings
+
+	$ NZBN.filings(nzbn)
+  * where nzbn is the entity nzbn
+
+Returns array of filings associated with the entity
 
 All output is returned as parsed JSON. Within a rails view it can be quickly navigated with [Nokogiri](https://github.com/sparklemotion/nokogiri) or similar.
 
