@@ -46,11 +46,12 @@ module NZBN
   private
 
   def self.access_token
-    response = RestClient.post("https://api.business.govt.nz/services/token", { grant_type: "client_credentials" },
-                               { grant_type: "client_credentials", authorization: "Basic #{Base64.strict_encode64(ENV["NZBN_ID"] + ":" + ENV["NZBN_SECRET"])}" })
     begin
+      response = RestClient.post("https://api.business.govt.nz/services/token", { grant_type: "client_credentials" },
+                               { grant_type: "client_credentials", authorization: "Basic #{Base64.strict_encode64(ENV["NZBN_ID"] + ":" + ENV["NZBN_SECRET"])}" })
+
       JSON.parse(response.body)["access_token"]
-    rescue JSON::ParseError
+    rescue JSON::ParseError, NoMethodError
       raise NZBN::AuthError, "Authentication failed! Are you missing NZBN_ID or NZBN_SECRET?"
     end
 
