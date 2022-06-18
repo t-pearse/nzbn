@@ -18,7 +18,7 @@ module NZBN
                        { authorization: "Bearer #{access_token}", accept: 'application/json' })
     begin
       JSON.parse(response.body).with_indifferent_access
-    rescue JSON::ParseError
+    rescue JSON::ParserError
       raise NZBN::DataError, "NZBN API returned bad data"
     end
   end
@@ -28,7 +28,7 @@ module NZBN
                               { authorization: "Bearer #{access_token}", accept: 'application/json' })
     begin
       JSON.parse(response.body).with_indifferent_access
-    rescue JSON::ParseError
+    rescue JSON::ParserError
       raise NZBN::DataError, "NZBN API returned bad data"
     end
   end
@@ -38,7 +38,7 @@ module NZBN
                               { authorization: "Bearer #{access_token}", accept: 'application/json' })
     begin
       JSON.parse(response.body).with_indifferent_access
-    rescue JSON::ParseError
+    rescue JSON::ParserError
       raise NZBN::DataError, "NZBN API returned bad data"
     end
   end
@@ -51,7 +51,7 @@ module NZBN
                                { grant_type: "client_credentials", authorization: "Basic #{Base64.strict_encode64(ENV["NZBN_ID"] + ":" + ENV["NZBN_SECRET"])}" })
 
       JSON.parse(response.body)["access_token"]
-    rescue JSON::ParseError, NoMethodError
+    rescue JSON::ParserError, NoMethodError
       raise NZBN::AuthError, "Authentication failed! Are you missing NZBN_ID or NZBN_SECRET?"
     end
 
