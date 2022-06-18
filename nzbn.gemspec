@@ -6,8 +6,8 @@ require "nzbn/version"
 Gem::Specification.new do |spec|
   spec.name          = "nzbn"
   spec.version       = Nzbn::VERSION
-  spec.authors       = ["T Pearse"]
-  spec.email         = ["t.pearse@gmail.com"]
+  spec.authors       = ["T Pearse", "Theo Morra"]
+  spec.email         = ["t.pearse@gmail.com", "git@theom.nz"]
 
   spec.summary       = %q{Simple and fast authenticating ruby API wrapper for the NZBN API}
   spec.description   = %q{Search, update details and manage New Zealand companies through the NZBN register.}
@@ -32,6 +32,6 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.15"
   spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency "curb", "~> 0.96"
+  spec.add_runtime_dependency "rest-client", "~> 2.1.0"
 
 end
