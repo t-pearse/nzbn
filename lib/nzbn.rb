@@ -3,57 +3,57 @@ require "nzbn/version"
 module NZBN
   require 'rubygems'
   require 'time'
-  require 'curb'
+  require 'rest-client'
   require 'base64'
 
+  NZBN_API_VERSION="v4"
 
-    def self.entities(search_term, entity_status, page_size)
-      entity_status = "registered" if entity_status.blank?
-      page_size = 50 if page_size.blank?
-      r = Curl::Easy.new("https://api.business.govt.nz/services/v3/nzbn/entities?search-term=#{search_term}&entity-status=#{entity_status}&page-size=#{page_size}") do |curl|
-        curl.headers['Authorization'] = 'Bearer ' + access_token
-        curl.http_auth_types = :basic
-        curl.verbose = true
-      end
-      r.perform
-      return JSON.parse(r.body_str)
+  class DataError < StandardError; end
+  class AuthError < StandardError; end
+
+  def self.entities(search_term, entity_status, page_size)
+    entity_status = "registered" if entity_status.blank?
+    page_size = 50 if page_size.blank?
+    response = RestClient.get("https://api.business.govt.nz/services/#{NZBN_API_VERSION}/nzbn/entities?search-term=#{search_term}&entity-status=#{entity_status}&page-size=#{page_size}",
+                       { authorization: "Bearer #{access_token}", accept: 'application/json' })
+    begin
+      JSON.parse(response.body).with_indifferent_access
+    rescue JSON::ParserError
+      raise NZBN::DataError, "NZBN API returned bad data"
     end
+  end
 
-    def self.entity(nzbn)
-      r = Curl::Easy.new("https://api.business.govt.nz/services/v3/nzbn/entities/#{nzbn}") do |curl|
-        curl.headers['Authorization'] = 'Bearer ' + access_token
-        curl.http_auth_types = :basic
-        curl.verbose = true
-      end
-      r.perform
-      return JSON.parse(r.body_str)
+  def self.entity(nzbn)
+    response = RestClient.get("https://api.business.govt.nz/services/#{NZBN_API_VERSION}/nzbn/entities/#{nzbn}",
+                              { authorization: "Bearer #{access_token}", accept: 'application/json' })
+    begin
+      JSON.parse(response.body).with_indifferent_access
+    rescue JSON::ParserError
+      raise NZBN::DataError, "NZBN API returned bad data"
     end
+  end
 
-    def self.filings(nzbn)
-      r = Curl::Easy.new("https://api.business.govt.nz/services/v3/nzbn/entities/#{nzbn}/filings") do |curl|
-        curl.headers['Authorization'] = 'Bearer ' + access_token
-        curl.http_auth_types = :basic
-        curl.verbose = true
-      end
-      r.perform
-      return JSON.parse(r.body_str)
+  def self.filings(nzbn)
+    response = RestClient.get("https://api.business.govt.nz/services/#{NZBN_API_VERSION}/nzbn/entities/#{nzbn}/filings",
+                              { authorization: "Bearer #{access_token}", accept: 'application/json' })
+    begin
+      JSON.parse(response.body).with_indifferent_access
+    rescue JSON::ParserError
+      raise NZBN::DataError, "NZBN API returned bad data"
     end
-
-
+  end
 
   private
 
+  def self.access_token
+    begin
+      response = RestClient.post("https://api.business.govt.nz/services/token", { grant_type: "client_credentials" },
+                               { grant_type: "client_credentials", authorization: "Basic #{Base64.strict_encode64(ENV["NZBN_ID"] + ":" + ENV["NZBN_SECRET"])}" })
 
-    def self.access_token
-        c = Curl::Easy.http_post("https://api.business.govt.nz/services/token", "grant_type=client_credentials") do |curl|
-          curl.headers['grant_type'] = 'client_credentials'
-          curl.headers['Authorization'] = 'Basic ' + Base64.strict_encode64(ENV["NZBN_ID"] + ":" + ENV["NZBN_SECRET"])
-          curl.http_auth_types = :basic
-          curl.verbose = true
-        end
-        c.perform
-        return JSON.parse(c.body_str)["access_token"]
+      JSON.parse(response.body)["access_token"]
+    rescue JSON::ParserError, NoMethodError
+      raise NZBN::AuthError, "Authentication failed! Are you missing NZBN_ID or NZBN_SECRET?"
     end
 
-
+  end
 end
