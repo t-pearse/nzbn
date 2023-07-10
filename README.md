@@ -25,16 +25,13 @@ Or install it yourself as:
 
     $ gem install nzbn
 
-You will also need to set the following ENV variables, in order to access the API. These can be gound on the business.govt.nz website under your login.
+You will also need to set the following ENV variables, in order to access the API. These can be found on the business.govt.nz website under your login.
 
-    $ NZBN_ID=
-
-    $ NZBN_SECRET=
-
+    $ NZBN_KEY=
 
 ## Usage
 
-Two functions have been exposed, as per below.
+Three functions have been exposed, as per below.
 
 ### Company details by NZBN
 
